@@ -8,14 +8,17 @@ for(const button of document.querySelectorAll('.select-package'))button.addEvent
   $('brief').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
   $('product').focus({preventScroll:true});
 });
-const names={'1':'Графит & лайм','2':'Тёплый минимализм','3':'Глубокий синий'};
+const portfolio={"coffee": {"title": "Графит & лайм", "image": "assets/card-1.png", "note": "Макет из демоархива бота. Не клиентский заказ."}, "candle": {"title": "Тёплый свет", "image": "assets/portfolio-candle.webp", "note": "Фото сгенерировано ИИ для портфолио. Бот оформляет исходные фото; это не клиентский заказ."}, "serum": {"title": "Чистая эстетика", "image": "assets/portfolio-serum.webp", "note": "Фото сгенерировано ИИ для портфолио. Бот оформляет исходные фото; это не клиентский заказ."}, "headphones": {"title": "В своём ритме", "image": "assets/portfolio-headphones.webp", "note": "Фото сгенерировано ИИ для портфолио. Бот оформляет исходные фото; это не клиентский заказ."}, "ceramic": {"title": "Медленное утро", "image": "assets/portfolio-ceramic.webp", "note": "Фото сгенерировано ИИ для портфолио. Бот оформляет исходные фото; это не клиентский заказ."}, "sneakers": {"title": "Новый маршрут", "image": "assets/portfolio-sneakers.webp", "note": "Фото сгенерировано ИИ для портфолио. Бот оформляет исходные фото; это не клиентский заказ."}};
 let lastTrigger=null;
 for(const button of document.querySelectorAll('.work-card'))button.addEventListener('click',()=>{
   lastTrigger=button;
   const id=button.dataset.image;
-  $('dialog-title').textContent=names[id]+' · демопример';
-  $('dialog-image').src='assets/card-'+id+'.png';
-  $('dialog-image').alt='Демонстрационная карточка: '+names[id];
+  const item=portfolio[id];
+  if(!item)return;
+  $('dialog-title').textContent=item.title+' · демопример';
+  $('dialog-image').src=item.image;
+  $('dialog-image').alt='Демонстрационный пример: '+item.title;
+  $('dialog-provenance').textContent=item.note;
   $('work-dialog').showModal();
 });
 $('close-dialog').addEventListener('click',()=>$('work-dialog').close());

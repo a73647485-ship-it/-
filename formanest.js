@@ -1,8 +1,9 @@
 'use strict';
 const $=id=>document.getElementById(id);
-const packages={single:'Одна карточка · 100 Stars',triple:'Три оформления одного товара · 270 Stars',five:'Пять оформлений одного товара · 400 Stars',banner:'Рекламный баннер · 150 Stars'};
+const packages={single:'Одна карточка · 80 Stars',triple:'Три оформления одного товара · 210 Stars',five:'Пять оформлений одного товара · 320 Stars',banner:'Рекламный баннер · 120 Stars'};
 for(const button of document.querySelectorAll('.select-package'))button.addEventListener('click',()=>{
   $('package').value=button.dataset.package;
+  syncPackageButtons();
   clearBrief();
   $('form-status').textContent='Выбран формат: '+packages[button.dataset.package];
   $('brief').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
@@ -33,6 +34,14 @@ $('work-dialog').addEventListener('close',()=>lastTrigger?.focus());
 const packageService={single:'single',triple:'three',five:'five',banner:'banner'};
 const packageLabel={single:'Одна карточка',triple:'Три оформления',five:'Пять оформлений',banner:'Баннер'};
 let preparedPayload=null;
+let submittedRequestId=null;
+function syncPackageButtons(){for(const button of document.querySelectorAll('[data-brief-package]'))button.setAttribute('aria-pressed',String(button.dataset.briefPackage===$('package').value));}
+for(const button of document.querySelectorAll('[data-brief-package]'))button.addEventListener('click',()=>{$('package').value=button.dataset.briefPackage;clearBrief();syncPackageButtons();$('form-status').textContent='Выбран формат: '+packages[button.dataset.briefPackage];});
+$('package').addEventListener('change',syncPackageButtons);
+$('details').addEventListener('input',()=>{$('details-counter').textContent=$('details').value.length+' / 1500 символов';});
+$('without-price').addEventListener('click',()=>{$('product-price').value='Без цены';clearBrief();$('form-status').textContent='На изображении не будет цены товара. Стоимость услуги указана отдельно.';});
+$('brief-example').addEventListener('click',()=>{$('product').value='Кружка · DEMO';$('product-price').value='Без цены';$('details').value='Демонстрационный макет. Не клиентский заказ. Текст: «Моя любимая кружка». Без выдуманных характеристик.';clearBrief();$('details-counter').textContent=$('details').value.length+' / 1500 символов';$('form-status').textContent='Это пример. Замените название и факты на данные своего товара перед отправкой.';});
+$('brief-reset').addEventListener('click',()=>{$('brief-form').reset();clearBrief();syncPackageButtons();$('details-counter').textContent='0 / 1500 символов';$('form-status').textContent='Форма очищена. Можно начать новое задание.';});
 const webApp=window.Telegram?.WebApp;
 const keyboardLaunch=new URLSearchParams(location.search).get('from')==='bot_keyboard' && webApp && webApp.platform && webApp.platform!=='unknown' && !webApp.initDataUnsafe?.query_id;
 if(keyboardLaunch){webApp.ready();webApp.expand();}
@@ -52,6 +61,7 @@ $('brief-form').addEventListener('submit',e=>{
   if(new TextEncoder().encode(json).length>4096){$('form-status').textContent='Бриф слишком длинный для Telegram. Сократите описание и попробуйте ещё раз.';return;}
   preparedPayload=payload;
   const text=['Заявка с сайта FormaNest','Код заявки: '+payload.request_id,'Формат: '+packageLabel[selected],'Название: '+product,'Цена для надписи: '+price,'Характеристики и пожелания:',details].join('\n');
+  if(new TextEncoder().encode(text).length>4096){preparedPayload=null;$('form-status').textContent='Текстовый бриф превышает лимит Telegram. Сократите описание и проверьте ещё раз.';return;}
   $('brief-text').value=text;$('brief-result').hidden=false;
   const draftURL='https://t.me/FormaNestStudio_bot?text='+encodeURIComponent(text);
   $('telegram-draft-link').href=draftURL;
@@ -62,6 +72,8 @@ $('brief-form').addEventListener('submit',e=>{
 });
 $('send-brief').addEventListener('click',()=>{
   if(!preparedPayload||!keyboardLaunch){$('form-status').textContent='Сначала проверьте бриф. Для прямой отправки откройте форму кнопкой «Заявка с сайта» в боте.';return;}
+  if(submittedRequestId===preparedPayload.request_id){$('form-status').textContent='Этот бриф уже передавался. Проверьте ответ бота в чате; повторная отправка отключена.';return;}
+  submittedRequestId=preparedPayload.request_id;
   $('send-brief').disabled=true;
   try{webApp.sendData(JSON.stringify(preparedPayload));$('form-status').textContent='Данные переданы в Telegram. Приём заявки подтверждает сообщение бота в чате.';}
   catch{$('send-brief').disabled=false;$('telegram-draft-link').hidden=false;$('form-status').textContent='Прямая передача не удалась. Скопируйте бриф или откройте черновик в Telegram.';}

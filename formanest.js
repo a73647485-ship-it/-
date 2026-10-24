@@ -9,6 +9,12 @@ for(const button of document.querySelectorAll('.select-package'))button.addEvent
   $('product').focus({preventScroll:true});
 });
 const portfolio={"coffee": {"title": "Графит & лайм", "image": "assets/card-1.png", "note": "Макет из демоархива бота. Не клиентский заказ."}, "candle": {"title": "Тёплый свет", "image": "assets/portfolio-candle.webp", "note": "Фото сгенерировано ИИ для портфолио. Бот оформляет исходные фото; это не клиентский заказ."}, "serum": {"title": "Чистая эстетика", "image": "assets/portfolio-serum.webp", "note": "Фото сгенерировано ИИ для портфолио. Бот оформляет исходные фото; это не клиентский заказ."}, "headphones": {"title": "В своём ритме", "image": "assets/portfolio-headphones.webp", "note": "Фото сгенерировано ИИ для портфолио. Бот оформляет исходные фото; это не клиентский заказ."}, "ceramic": {"title": "Медленное утро", "image": "assets/portfolio-ceramic.webp", "note": "Фото сгенерировано ИИ для портфолио. Бот оформляет исходные фото; это не клиентский заказ."}, "sneakers": {"title": "Новый маршрут", "image": "assets/portfolio-sneakers.webp", "note": "Фото сгенерировано ИИ для портфолио. Бот оформляет исходные фото; это не клиентский заказ."}};
+Object.assign(portfolio, {
+  mug: {title:'Тихое утро',image:'assets/demo-mug.webp',note:'Demo / Concept. Вымышленный товар, изображение создано ИИ; не клиентский заказ и не результат автоматической выдачи бота.'},
+  audio: {title:'Чистый ритм',image:'assets/demo-headphones.webp',note:'Demo / Concept. Вымышленные наушники, изображение создано ИИ; свойства реального товара не утверждаются.'},
+  warmth: {title:'Тёплый акцент',image:'assets/demo-candle.webp',note:'Demo / Concept. Вымышленная свеча, изображение создано ИИ; не подтверждение состава или длительности горения.'},
+  coffee2: {title:'Второй макет бота',image:'assets/card-2.png',note:'Сохранённый демонстрационный макет бота, не клиентский заказ. Цена на изображении относится к условному товару, не услуге.'}
+});
 let lastTrigger=null;
 for(const button of document.querySelectorAll('.work-card'))button.addEventListener('click',()=>{
   lastTrigger=button;
@@ -85,6 +91,3 @@ if(gallery){
   pause(paused);show(0);
   setInterval(()=>{if(!paused&&!hovered&&!focused&&!document.hidden)show(index+1);},5500);
 }
-
-
-

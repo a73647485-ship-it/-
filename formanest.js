@@ -1,6 +1,8 @@
 'use strict';
 const $=id=>document.getElementById(id);
-const packages={single:'Одна карточка · 80 Stars',triple:'Три оформления одного товара · 210 Stars',five:'Пять оформлений одного товара · 320 Stars',banner:'Рекламный баннер · 120 Stars'};
+const pricing=window.FormaNestPricing;
+const packages=Object.fromEntries(['single','triple','five','banner'].map(key=>[key,pricing.label(key)]));
+for(const option of $('package').options)option.textContent=packages[option.value];
 for(const button of document.querySelectorAll('.select-package'))button.addEventListener('click',()=>{
   $('package').value=button.dataset.package;
   syncPackageButtons();

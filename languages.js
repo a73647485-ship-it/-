@@ -2,6 +2,14 @@
 // Local, reviewed UI translations. No translation API or user content upload.
 (()=>{
 const rows=[
+["Перевод · русский / английский / французский","Translation · Russian / English / French","Traduction · russe / anglais / français"],
+["Улучшение формулировок без новых фактов","Improve wording without adding facts","Améliorer la formulation sans ajouter de faits"],
+["Краткий пересказ длинных сообщений","Summarize long messages","Résumer les longs messages"],
+["Три тона общения","Three tones of voice","Trois tons de communication"],
+["До 20 готовых ответов на точные вопросы","Up to 20 saved replies for exact questions","Jusqu’à 20 réponses enregistrées à des questions précises"],
+["До 20 выбранных личных чатов","Up to 20 selected private chats","Jusqu’à 20 discussions privées sélectionnées"],
+["Черновики видны только вам. Переводы и ИИ-ответы нужно проверять перед использованием.","Drafts are visible only to you. Review translations and AI replies before using them.","Les brouillons ne sont visibles que par vous. Vérifiez les traductions et les réponses IA avant utilisation."],
+["Доступ только двум тестовым аккаунтам владельца. Оплата недоступна.","Access is limited to the owner's two test accounts. Payments are unavailable.","Accès limité aux deux comptes de test du propriétaire. Paiement indisponible."],
 ["Меньше рутины.","Less routine.","Moins de tâches répétitives."],
 ["Больше контроля.","More control.","Plus de contrôle."],
 ["Помощник для выбранных чатов Telegram. Сейчас — закрытый тест. Оплата Assistant ещё не открыта.","An assistant for selected Telegram chats. Closed pilot; Assistant payments are not available yet.","Un assistant pour les discussions Telegram sélectionnées. Test privé ; les paiements ne sont pas encore ouverts."],

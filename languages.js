@@ -2,6 +2,12 @@
 // Local, reviewed UI translations. No translation API or user content upload.
 (()=>{
 const rows=[
+["Вопросы и ответы в чате с Assistant","Questions and answers in the Assistant chat","Questions et réponses dans le chat Assistant"],
+["Помощник для текстов и выбранных чатов Telegram. Сейчас проходит закрытое тестирование.","An assistant for text and selected Telegram chats. Currently in private testing.","Un assistant pour vos textes et certaines discussions Telegram. Actuellement en test privé."],
+["Закрытый тест","Private testing","Test privé"],
+["Планируемый тариф после тестирования","Proposed price after testing","Tarif prévu après les tests"],
+["Покупка пока закрыта. Проверяем качество переводов и ответов. Оплата не принимается.","Not available for purchase yet. We are checking translation and reply quality. No payments are accepted.","Achat non disponible pour le moment. Nous vérifions la qualité des traductions et des réponses. Aucun paiement n’est accepté."],
+["Узнать о запуске ↗","Ask about the launch ↗","Se renseigner sur le lancement ↗"],
 ["Покупка временно недоступна: проверяем качество ИИ. После запуска доступ получит только оплативший аккаунт. Поддержка — в магазине.","Purchase is temporarily unavailable while we check AI quality. After launch, access will belong only to the paying account. Support is available in the store.","Achat temporairement indisponible pendant la vérification de la qualité de l’IA. Après le lancement, seul le compte payeur aura accès. Assistance dans la boutique."],
 ["Тексты и ответы в Telegram. Один платёж — 90 дней доступа, без автопродления.","Texts and replies in Telegram. One payment for 90 days of access, with no auto-renewal.","Textes et réponses dans Telegram. Un paiement pour 90 jours d’accès, sans renouvellement automatique."],
 ["⭐ / 90 дней","⭐ / 90 days","⭐ / 90 jours"],

@@ -129,6 +129,15 @@ h2 span{color:#909d87}
 .availability-pill.is-live{background:#2a3620;border-color:#5c7441;color:#d0ed9d}
 .availability-pill.is-live:before{background:#d0ed9d}
 .assistant-card .ai-notice{font-size:11px!important;color:#b4bda8!important;margin-top:16px!important}
+.premium-benefits{display:grid;gap:12px;margin-top:28px}
+.benefit-item{display:grid;grid-template-columns:34px 1fr;gap:14px;padding:20px;border:1px solid #445137;border-radius:16px;background:#192214;transition:border-color .2s,background .2s}
+.benefit-item:hover{border-color:#849b63;background:#232f1b}
+.benefit-number{display:grid;place-items:center;width:32px;height:32px;border:1px solid #617b43;border-radius:10px;color:var(--lime);font-size:10px;letter-spacing:1px}
+.benefit-item h4{margin:1px 0 9px;font-size:17px;line-height:1.35;font-weight:550;letter-spacing:-.3px;color:#f0f4e8}
+.benefit-item p{font-size:12px;line-height:1.8;color:#becbb2;margin:0}
+.benefit-detail{display:block;margin-top:13px;font-size:10px;line-height:1.7;color:#d0ed9d}
+@media(min-width:761px){.assistant-grid{align-items:start}.assistant-grid>.assistant-card:not(.assistant-premium){position:sticky;top:24px}}
+@media(max-width:760px){.assistant-premium{order:-1}.benefit-item{padding:18px 15px;gap:12px;grid-template-columns:30px 1fr}.benefit-item h4{font-size:17px}.benefit-number{width:29px;height:29px;font-size:9px}.benefit-item p{font-size:13px}.benefit-detail{font-size:11px}}
 .assistant-terms{margin-top:26px;border-block:1px solid var(--line);font-size:12px;color:var(--muted)}
 .assistant-terms summary{cursor:pointer;min-height:48px;display:flex;align-items:center;gap:12px;color:#c9d4bd;list-style:none}
 .assistant-terms summary:before{content:'+';font-size:18px;color:var(--lime)}

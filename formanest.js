@@ -1,6 +1,6 @@
 'use strict';
 const $=id=>document.getElementById(id);
-const packages={single:'Одна карточка · 80 Stars',triple:'Три оформления одного товара · 210 Stars',five:'Пять оформлений одного товара · 320 Stars',banner:'Рекламный баннер · 120 Stars'};
+const packages={single:'Одна карточка · 100 Stars',triple:'Три оформления одного товара · 270 Stars',five:'Пять оформлений одного товара · 400 Stars',banner:'Рекламный баннер · 150 Stars'};
 for(const button of document.querySelectorAll('.select-package'))button.addEventListener('click',()=>{
   $('package').value=button.dataset.package;
   syncPackageButtons();
@@ -103,3 +103,6 @@ if(gallery){
   pause(paused);show(0);
   setInterval(()=>{if(!paused&&!hovered&&!focused&&!document.hidden)show(index+1);},5500);
 }
+
+
+

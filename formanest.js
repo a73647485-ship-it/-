@@ -1,6 +1,6 @@
 'use strict';
 const $=id=>document.getElementById(id);
-const packages={single:'Одна карточка · 100 Stars',triple:'Три оформления одного товара · 270 Stars',five:'Пять оформлений одного товара · 400 Stars',banner:'Рекламный баннер · 150 Stars'};
+const packages={single:'Одна карточка · 140 Stars',triple:'Три оформления одного товара · 380 Stars',five:'Пять оформлений одного товара · 550 Stars',banner:'Рекламный баннер · 200 Stars'};
 for(const button of document.querySelectorAll('.select-package'))button.addEventListener('click',()=>{
   $('package').value=button.dataset.package;
   syncPackageButtons();

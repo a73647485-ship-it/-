@@ -1,7 +1,18 @@
 'use strict';
 const $=id=>document.getElementById(id);
-const packages={single:'Одна карточка · 140 Stars',triple:'Три оформления одного товара · 380 Stars',five:'Пять оформлений одного товара · 550 Stars',banner:'Рекламный баннер · 200 Stars'};
+for(const sample of document.querySelectorAll('[data-sample]')){
+  for(const button of sample.querySelectorAll('[data-preview]'))button.addEventListener('click',()=>{
+    const choice=Number(button.dataset.preview),kind=sample.dataset.sample;
+    if(!['card','banner'].includes(kind)||![1,2,3].includes(choice))return;
+    const path=`assets/actual-${kind}-preview${choice===1?'':'-'+choice}.png`;
+    sample.querySelector('img').src=path;
+    sample.querySelector('a').href=path;
+    for(const item of sample.querySelectorAll('[data-preview]'))item.setAttribute('aria-pressed',String(item===button));
+  });
+}
+const packages=Object.freeze({single:'Одна карточка · 140 Stars',banner:'Рекламный баннер · 200 Stars'});
 for(const button of document.querySelectorAll('.select-package'))button.addEventListener('click',()=>{
+  if(!Object.hasOwn(packages,button.dataset.package))return;
   $('package').value=button.dataset.package;
   syncPackageButtons();
   clearBrief();
@@ -31,12 +42,12 @@ for(const button of document.querySelectorAll('.work-card'))button.addEventListe
 $('close-dialog').addEventListener('click',()=>$('work-dialog').close());
 $('work-dialog').addEventListener('click',e=>{if(e.target===$('work-dialog')){const rect=$('work-dialog').getBoundingClientRect();if(e.clientX<rect.left||e.clientX>rect.right||e.clientY<rect.top||e.clientY>rect.bottom)$('work-dialog').close();}});
 $('work-dialog').addEventListener('close',()=>lastTrigger?.focus());
-const packageService={single:'single',triple:'three',five:'five',banner:'banner'};
-const packageLabel={single:'Одна карточка',triple:'Три оформления',five:'Пять оформлений',banner:'Баннер'};
+const packageService=Object.freeze({single:'single',banner:'banner'});
+const packageLabel=Object.freeze({single:'Одна карточка',banner:'Баннер'});
 let preparedPayload=null;
 let submittedRequestId=null;
 function syncPackageButtons(){for(const button of document.querySelectorAll('[data-brief-package]'))button.setAttribute('aria-pressed',String(button.dataset.briefPackage===$('package').value));}
-for(const button of document.querySelectorAll('[data-brief-package]'))button.addEventListener('click',()=>{$('package').value=button.dataset.briefPackage;clearBrief();syncPackageButtons();$('form-status').textContent='Выбран формат: '+packages[button.dataset.briefPackage];});
+for(const button of document.querySelectorAll('[data-brief-package]'))button.addEventListener('click',()=>{if(!Object.hasOwn(packages,button.dataset.briefPackage))return;$('package').value=button.dataset.briefPackage;clearBrief();syncPackageButtons();$('form-status').textContent='Выбран формат: '+packages[button.dataset.briefPackage];});
 $('package').addEventListener('change',syncPackageButtons);
 $('details').addEventListener('input',()=>{$('details-counter').textContent=$('details').value.length+' / 1500 символов';});
 $('without-price').addEventListener('click',()=>{$('product-price').value='Без цены';clearBrief();$('form-status').textContent='На изображении не будет цены товара. Стоимость услуги указана отдельно.';});
@@ -55,7 +66,7 @@ $('brief-form').addEventListener('submit',e=>{
   const product=$('product').value.trim().replace(/\s+/g,' '),details=$('details').value.trim();
   const price=$('product-price').value.trim().replace(/\s+/g,' ')||'Без цены';
   const selected=$('package').value;
-  if(!product||product.length>100||price.length>60||details.length<10||details.length>1500||!packageService[selected]){$('form-status').textContent='Проверьте название, цену для надписи и описание (10–1500 символов).';return;}
+  if(!product||product.length>100||price.length>60||details.length<10||details.length>1500||!Object.hasOwn(packageService,selected)){$('form-status').textContent='Проверьте название, цену для надписи и описание (10–1500 символов).';return;}
   const payload={type:'formanest_brief',v:1,request_id:preparedPayload&&preparedPayload.service===packageService[selected]&&preparedPayload.title===product&&preparedPayload.product_price===price&&preparedPayload.description===details?preparedPayload.request_id:crypto.randomUUID(),service:packageService[selected],title:product,product_price:price,description:details};
   const json=JSON.stringify(payload);
   if(new TextEncoder().encode(json).length>4096){$('form-status').textContent='Бриф слишком длинный для Telegram. Сократите описание и попробуйте ещё раз.';return;}

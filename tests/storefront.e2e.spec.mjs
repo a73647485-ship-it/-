@@ -35,9 +35,10 @@ test('incomplete order is rejected before Telegram', async ({ page }) => {
   await page.goto('/');
   await page.locator('#product').fill('Тест');
   await page.locator('#details').fill('Коротко');
+  // HTML5 constraint validation rejects the form before the JS submit listener runs.
   await page.locator('#brief-form button[type="submit"]').click();
   await expect(page.locator('#brief-result')).toBeHidden();
-  await expect(page.locator('#form-status')).toContainText('Проверьте');
+  expect(await page.locator('#details').evaluate(el => el.checkValidity())).toBe(false);
 });
 
 test('locale defaults to French for a French Canadian browser and persists a choice', async ({ browser }) => {
@@ -53,6 +54,11 @@ test('locale defaults to French for a French Canadian browser and persists a cho
 });
 
 test('Telegram keyboard submission can retry after a synchronous transport failure', async ({ page }) => {
+  // Keep the official CDN script from replacing the controlled transport mock.
+  // This is a unit-style browser test, not proof of Telegram backend delivery.
+  await page.route('https://telegram.org/js/telegram-web-app.js', route => route.fulfill({
+    status: 200, contentType: 'application/javascript', body: '/* Test WebApp mock is installed via addInitScript. */'
+  }));
   await page.addInitScript(() => {
     window.__sent = [];
     window.__failedOnce = false;

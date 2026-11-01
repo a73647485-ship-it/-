@@ -1,0 +1,26 @@
+name: FormaNest browser flows
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Playwright Chromium
+        run: |
+          npm install --no-save @playwright/test@1.57.0
+          npx playwright install --with-deps chromium
+      - name: Run browser tests
+        run: npx playwright test --config=playwright.config.mjs

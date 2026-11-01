@@ -84,10 +84,18 @@ $('brief-form').addEventListener('submit',e=>{
 $('send-brief').addEventListener('click',()=>{
   if(!preparedPayload||!keyboardLaunch){$('form-status').textContent='Сначала проверьте бриф. Для прямой отправки откройте форму кнопкой «Заявка с сайта» в боте.';return;}
   if(submittedRequestId===preparedPayload.request_id){$('form-status').textContent='Этот бриф уже передавался. Проверьте ответ бота в чате; повторная отправка отключена.';return;}
-  submittedRequestId=preparedPayload.request_id;
   $('send-brief').disabled=true;
-  try{webApp.sendData(JSON.stringify(preparedPayload));$('form-status').textContent='Данные переданы в Telegram. Приём заявки подтверждает сообщение бота в чате.';}
-  catch{$('send-brief').disabled=false;$('telegram-draft-link').hidden=false;$('form-status').textContent='Прямая передача не удалась. Скопируйте бриф или откройте черновик в Telegram.';}
+  try{
+    webApp.sendData(JSON.stringify(preparedPayload));
+    submittedRequestId=preparedPayload.request_id;
+    $('form-status').textContent='Запрос на отправку передан Telegram. Заявка считается принятой только после ответа бота в чате.';
+  }
+  catch{
+    submittedRequestId=null;
+    $('send-brief').disabled=false;
+    $('telegram-draft-link').hidden=false;
+    $('form-status').textContent='Прямая передача не удалась. Можно повторить отправку или скопировать бриф и отправить его в Telegram вручную.';
+  }
 });
 $('copy-brief').addEventListener('click',async()=>{
   try{await navigator.clipboard.writeText($('brief-text').value);$('form-status').textContent='Бриф скопирован. Отправьте его в @FormaNestStudio_bot и дождитесь подтверждения.';}

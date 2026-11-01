@@ -276,7 +276,14 @@ function select(next,animate=true){
 }
 for(const button of document.querySelectorAll('button[data-language]'))button.addEventListener('click',()=>select(button.dataset.language));
 let initial=new URLSearchParams(location.search).get('lang');
-if(!initial){try{initial=localStorage.getItem('formanest-language');}catch{}}
-select(initial||'ru',false);
+if(!['ru','en','fr'].includes(initial)){
+  initial=null;
+  try{initial=localStorage.getItem('formanest-language');}catch{}
+}
+if(!['ru','en','fr'].includes(initial)){
+  const preferred=(navigator.languages?.[0]||navigator.language||'ru').toLowerCase();
+  initial=preferred.startsWith('fr')?'fr':preferred.startsWith('en')?'en':'ru';
+}
+select(initial,false);
 // Brief payloads and customer-entered text deliberately keep the existing bot contract.
 })();
